@@ -13,9 +13,11 @@ export default function LayoutComponent(props) {
                 <div className="Center-Container">
                     <div className="Absolute-Center">
                         <InputBlock/>
+                        <h1 style={{color: "#f1f2f5"}}>Client data</h1>
                     </div>
                 </div>
             </div>
+
             <Footer style={{textAlign: 'center'}}>Made by Taiberium</Footer>
         </Layout>
     );

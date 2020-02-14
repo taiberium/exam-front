@@ -3,11 +3,11 @@ import {Button, Form, Input} from 'antd';
 import {connect} from "react-redux";
 import {isEmpty} from "lodash";
 import {sendDataActionCreator} from "../store/dataActionCreator";
-import hotkeys from "hotkeys-js";
+import {detect} from 'detect-browser';
+import {includes} from "lodash/collection";
 
-hotkeys('ctrl+a', function (event, handler){
-    alert("BUG!");
-});
+
+const browser = detect();
 
 const status = {
     success: {status: "success", description: 'Successfully send'},
@@ -76,36 +76,45 @@ class HorizontalLoginForm extends React.Component {
     };
 
     render() {
+
+        const array = [];
+
+        for (let arrayElement of array) {
+
+        }
+
         const {state, onChange, onEnter, onButtonClick} = this;
         const {inputValue, inputStatus} = state;
 
         const buttonIsLoading = inputStatus.status === 'validating';
         const buttonIsDisabled = isEmpty(inputValue) || buttonIsLoading;
+        console.log("Browser name: " + browser.name);
+        const isChromiumBrowser = includes(browser.name, "chrom");
 
+        const input = <Input placeholder="input with clear icon"
+                             allowClear
+                             onChange={onChange}
+                             onPressEnter={onEnter}
+                             maxLength={15}
+                             value={inputValue}
+                             addonBefore={"Digits"}/>;
 
-        return (
-            <Form layout="inline">
-                <Form.Item validateStatus={inputStatus.status} help={inputStatus.description}>
-                    <Input placeholder="input with clear icon"
-                           allowClear
-                           onChange={onChange}
-                           onPressEnter={onEnter}
-                           maxLength={15}
-                           value={inputValue}
-                           addonBefore={"Digits"}
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" shape="round" icon="download"
-                            onClick={onButtonClick}
-                            loading={buttonIsLoading}
-                            disabled={buttonIsDisabled}
-                    >
-                        Send
-                    </Button>
-                </Form.Item>
-            </Form>
-        );
+        const button = <Button type="primary" shape="round" icon="download"
+                               onClick={onButtonClick}
+                               loading={buttonIsLoading}
+                               disabled={buttonIsDisabled}>Send</Button>;
+
+        const formRender = <Form layout="inline">
+            <Form.Item validateStatus={inputStatus.status} help={inputStatus.description}>{input}</Form.Item>
+            <Form.Item>{button}</Form.Item>
+        </Form>;
+
+        const brokenRender = <div>
+            <div>{button}</div>
+            <div>{input}</div>
+        </div>;
+
+        return isChromiumBrowser ? brokenRender : formRender;
     }
 }
 

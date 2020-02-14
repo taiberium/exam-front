@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.26.7",
+    "detect-browser": "^4.8.0",
     "hotkeys-js": "^3.7.3",
     "lodash": "^4.17.15",
     "react": "^16.12.0",
