@@ -18,6 +18,7 @@ const status = {
 
 class HorizontalLoginForm extends React.Component {
     state = {
+        sendValue: "",
         inputValue: "",
         inputStatus: '',
     };
@@ -27,7 +28,6 @@ class HorizontalLoginForm extends React.Component {
         const {pending, data, error} = dataResponse;
         const successResponse = !pending && !error && data && data.message && !isEmpty(data.message);
 
-        console.log(`current statuses: error:${error} pending:${pending} success:${successResponse}`);
         console.log("Плохой программист вывел сюда клиентские данные! Вы нашли баг в консоли!");
 
         if (error && !pending) {
@@ -52,36 +52,32 @@ class HorizontalLoginForm extends React.Component {
         const change = newStr.replace(oldStr, '');
         const isSingleLetter = change.length === 1;
 
-        console.log("changred");
+        console.log("Changed");
 
         if (!isSingleLetter) {
-            this.setState({inputStatus: status.empty, inputValue: newStr});
+            const newStrDigits = newStr.replace(/[^0-9]/g,'');
+            console.log("New str digits: ", newStrDigits);
+            this.setState({inputStatus: status.empty, inputValue: newStrDigits, sendValue: newStr});
             return;
         }
         const isNumeric = !isNaN(change);
         if (isNumeric) {
-            this.setState({inputStatus: status.empty, inputValue: newStr});
+            this.setState({inputStatus: status.empty, inputValue: newStr, sendValue: newStr});
             return;
         }
-        this.setState({inputStatus: status.error, inputValue: oldStr});
+        this.setState({inputStatus: status.error, inputValue: oldStr, sendValue: newStr});
 
     };
 
     onEnter = e => {
-        this.props.sendData(this.state.inputValue);
+        this.props.sendData(this.state.sendValue);
     };
 
     onButtonClick = e => {
-        this.props.sendData(this.state.inputValue);
+        this.props.sendData(this.state.sendValue);
     };
 
     render() {
-
-        const array = [];
-
-        for (let arrayElement of array) {
-
-        }
 
         const {state, onChange, onEnter, onButtonClick} = this;
         const {inputValue, inputStatus} = state;
@@ -110,7 +106,7 @@ class HorizontalLoginForm extends React.Component {
         </Form>;
 
         const brokenRender = <div>
-            <div>{button}</div>
+            <div style={{position: "relative", bottom: "-10px", right: "-100px"}}>{button}</div>
             <div>{input}</div>
         </div>;
 
