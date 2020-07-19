@@ -6,7 +6,7 @@
     "antd": "^3.26.7",
     "detect-browser": "^4.8.0",
     "hotkeys-js": "^3.7.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "react": "^16.12.0",
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.12.0",
